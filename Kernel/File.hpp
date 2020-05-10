@@ -25,7 +25,7 @@ public:
     std::string field(const size_t &indx, const size_t &fieldNumber);
     std::vector<byte> signature(const size_t &indx);
 private:
-    FILE *m_dataFile;
+    FILE *m_dataFile = nullptr;
 };
 
 }}

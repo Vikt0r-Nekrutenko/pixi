@@ -1,5 +1,6 @@
 #include "file.hpp"
 #include <iostream>
+#include <cassert>
 
 pixi::files::file::file(const std::string &fileName)
 {
@@ -13,6 +14,7 @@ pixi::files::file::~file()
 
 std::string pixi::files::file::field(const size_t &indx, const size_t &fieldNumber)
 {
+    assert(m_dataFile != nullptr);
     fseek(m_dataFile, FIELD_SIZE * 6 * indx + FIELD_SIZE * fieldNumber, SEEK_SET);
     char field[FIELD_SIZE];
     fread(field, FIELD_SIZE, 1, m_dataFile);
@@ -21,6 +23,7 @@ std::string pixi::files::file::field(const size_t &indx, const size_t &fieldNumb
 
 std::vector<pixi::files::byte> pixi::files::file::signature(const size_t &indx)
 {
+    assert(m_dataFile != nullptr);
     fseek(m_dataFile, FIELD_SIZE * 6 * indx + FIELD_SIZE * 5, SEEK_SET);
     std::vector<byte> signature(SIGNATURE_SIZE);
     for (word i = 0; i < SIGNATURE_SIZE; i++) {
