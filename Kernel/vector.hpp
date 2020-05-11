@@ -10,7 +10,7 @@ namespace pixi { namespace math {
 
 using dword = unsigned;
 
-template <dword SIZE = 16> class KERNEL_EXPORT vector
+template <dword SIZE = 4096> class KERNEL_EXPORT vector
 {
 public:
     vector()
@@ -68,6 +68,18 @@ public:
         }
         return result;
     }
+    dword max() const
+    {
+        float max = 0.f;
+        dword indx = 0u;
+        for (dword i = 0; i < _size; ++i) {
+            if (_array[i] > max) {
+                max = _array[i];
+                indx = i;
+            }
+        }
+        return indx;
+    }
     vector &norm()
     {
         float sqr_sum = 0.f;
@@ -87,18 +99,6 @@ public:
             _array[i] = min + (float(rand()) / RAND_MAX) * (max - min);
         }
         return *this;
-    }
-    dword max() const
-    {
-        float max = 0.f;
-        dword indx = 0u;
-        for (dword i = 0; i < _size; ++i) {
-            if (_array[i] > max) {
-                max = _array[i];
-                indx = i;
-            }
-        }
-        return indx;
     }
     vector operator -(const vector &vec) const
     {

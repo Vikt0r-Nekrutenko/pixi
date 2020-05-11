@@ -5,25 +5,20 @@
 
 namespace pixi { namespace math {
 
-template <dword SIZE = 16> class matrix
+class KERNEL_EXPORT matrix
 {
 public:
-    matrix(const dword &w, const dword &h, const bool &is_rand = false, const float &min = 0.f, const float &max = 1.f)
-        : _w(w),
-          _h(h)
+    matrix(const dword &w, const dword &h, const bool &is_rand = false, const float &min = 0.f, const float &max = 1.f);
+    ~matrix();
+    inline vector<> &operator [](const dword &indx)
     {
-        assert(_h <= SIZE);
-        for (dword i = 0; i < _h; ++i) {
-            _array[i] = vector<>(_w, is_rand, min, max);
-        }
-    }
-    inline vector<> &operator [](const dword &indx) {
         assert(indx < _h);
         return _array[indx];
     }
-    inline const vector<> &operator [](const dword &indx) const {
+    inline const vector<> &operator [](const dword &indx) const
+    {
         assert(indx < _h);
-        return _array[indx];
+        return  _array[indx];
     }
     inline dword w() const
     {
@@ -33,29 +28,12 @@ public:
     {
         return _h;
     }
-    void print() const
-    {
-        for (dword i = 0; i < _h; ++i) {
-            _array[i].print();
-        }
-    }
-    vector<> dot(const vector<> &vec) const
-    {
-        assert(_w == vec.size());
-        vector<> tmp(_h);
-        for (dword i = 0; i < _h; ++i) {
-            tmp[i] = _array[i].dot(vec);
-        }
-        return tmp;
-    }
-    matrix<> random(const float &min, const float &max)
-    {
-        for (dword i = 0; i < _h; ++i) {
-            _array[i].random(min, max);
-        }
-    }
+    void print() const;
+    vector<> dot(const vector<> &vec) const;
+    matrix &operator =(const matrix &mtrx);
+    matrix random(const float &min, const float &max);
 private:
-    vector<> _array[SIZE];
+    vector<> *_array = nullptr;
     dword _w = 0u, _h = 0u;
 };
 
