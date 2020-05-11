@@ -21,7 +21,9 @@ SOURCES += \
 
 HEADERS += \
     file.hpp \
-    kernel_global.hpp
+    kernel_global.hpp \
+    matrix.hpp \
+    vector.hpp
 
 
 # Default rules for deployment.
