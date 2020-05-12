@@ -18,7 +18,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     math/detector.cpp \
-    math/matrix.cpp
+    math/matrix.cpp \
+    ui/BasicTemplate.cpp \
+    ui/Box.cpp \
+    ui/Event.cpp \
+    ui/InputBox.cpp \
+    ui/NumericBox.cpp \
+    ui/OutputBox.cpp \
+    ui/Renderer.cpp \
+    ui/Window.cpp \
     file.cpp \
 
 HEADERS += \
@@ -26,7 +34,15 @@ HEADERS += \
     math/matrix.hpp \
     math/vector.hpp \
     kernel_global.hpp \
-    file.hpp
+    file.hpp \
+    ui/BasicTemplate.hpp \
+    ui/Box.hpp \
+    ui/Event.hpp \
+    ui/InputBox.hpp \
+    ui/NumericBox.hpp \
+    ui/OutputBox.hpp \
+    ui/Renderer.hpp \
+    ui/Window.hpp
 
 # Default rules for deployment.
 unix {

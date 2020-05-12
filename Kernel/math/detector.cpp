@@ -32,7 +32,6 @@ void pixi::math::detector::save(const char *file_name) const
         }
     }
     fclose(file);
-    printf("saved!\n");
 }
 
 void pixi::math::detector::load(const char *file_name)
@@ -61,12 +60,10 @@ void pixi::math::detector::load(const char *file_name)
     }
 
     fclose(file);
-    printf("loaded!");
 }
 
 void pixi::math::detector::learn(const pixi::files::file &swds, const pixi::files::file &mwds, const pixi::math::dword &files_num, const vector<> swo, const vector<> mwo)
 {
-    time_t t1 = clock();
     for (size_t i = 0; i < files_num; i++)
     {
         if (_alpha < 0.001f || _beta < 0.001f) break;
@@ -74,7 +71,6 @@ void pixi::math::detector::learn(const pixi::files::file &swds, const pixi::file
         learn_step(swds.signature(i), swo);
         learn_step(mwds.signature(i), mwo);
     }
-//    printf("Elapsed: %f\tAlpha: %f\tBeta: %f\n", (clock() - t1) / 1000.f, _alpha, _beta);
 }
 
 void pixi::math::detector::learn_step(const vector<> &input, const vector<> &output)

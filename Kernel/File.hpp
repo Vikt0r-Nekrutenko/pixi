@@ -1,7 +1,7 @@
 #ifndef FILE_HPP
 #define FILE_HPP
 
-#include "vector.hpp"
+#include "math/vector.hpp"
 #include <vector>
 #include <string>
 #include <cstdio>
