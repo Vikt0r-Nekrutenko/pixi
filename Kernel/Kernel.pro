@@ -25,6 +25,7 @@ SOURCES += \
     ui/InputBox.cpp \
     ui/NumericBox.cpp \
     ui/OutputBox.cpp \
+    ui/ProgressBox.cpp \
     ui/Renderer.cpp \
     ui/Window.cpp \
     file.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     ui/InputBox.hpp \
     ui/NumericBox.hpp \
     ui/OutputBox.hpp \
+    ui/ProgressBox.hpp \
     ui/Renderer.hpp \
     ui/Window.hpp
 

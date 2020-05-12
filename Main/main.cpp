@@ -9,19 +9,7 @@
 #include "math/detector.hpp"
 #include "ui/Window.hpp"
 #include "ui/OutputBox.hpp"
-
-namespace pixi { namespace ui {
-
-class ProgressBox : public Box
-{
-    ProgressBox(const Window *parent, const short x, const short y, const short width, const short height, const std::string title = "Progress")
-        : Box(parent, x, y, width, height, title)
-    {
-
-    }
-};
-
-}}
+#include "ui/ProgressBox.hpp"
 
 using namespace pixi::math;
 
@@ -41,8 +29,8 @@ public:
 private:
     pixi::files::file swds, mwds;
 
-    pixi::ui::OutputBox *thread1Output;
-    pixi::ui::OutputBox *thread2Output;
+    pixi::ui::ProgressBox thread1Output;
+    pixi::ui::ProgressBox thread2Output;
     pixi::ui::OutputBox *startLearningBtn;
     pixi::ui::InputBox *saveFileName;
 
@@ -56,14 +44,14 @@ my_window::my_window()
     : pixi::ui::Window(),
       swds("../Kernel/data/SoftwareDataSetRaw.data"),
       mwds("../Kernel/data/MalwareDataSet.data"),
-      thread1Output(new pixi::ui::OutputBox(this, 0, 0, 30, 3, "Thread 2 INFO")),
-      thread2Output(new pixi::ui::OutputBox(this, 0, 4, 30, 3, "Thread 3 INFO")),
+      thread1Output(this, 0, 0, 30, 3, 100, pixi::ui::Color::FG_RED, "Thread 2 INFO"),
+      thread2Output(this, 0, 4, 30, 3, 100, pixi::ui::Color::FG_RED, "Thread 3 INFO"),
       startLearningBtn(new pixi::ui::OutputBox(this, 0, 8, 50)),
       saveFileName(new pixi::ui::InputBox(this, 0, 12)),
       d1(4, 4, 4, 4, 4),
       minerr(0xffffffff)
 {
-    addNewControl({ thread1Output, thread2Output, startLearningBtn, saveFileName });
+    addNewControl({ &thread1Output, &thread2Output, startLearningBtn, saveFileName });
     setCursorParams();
     setFontParams(8, 12);
 
@@ -75,8 +63,6 @@ my_window::~my_window()
 {
     delete saveFileName;
     delete startLearningBtn;
-    delete thread2Output;
-    delete thread1Output;
 }
 
 void my_window::startLearingBtnOnClicked(const pixi::ui::MouseRecord mer)
@@ -113,11 +99,10 @@ void my_window::startLearning(const dword min_it, const dword max_it)
             d1 = det1;
             mtx.unlock();
         }
-        std::stringstream stream; stream << "NNID" << std::this_thread::get_id() << " Progress: " << c;
         if (std::this_thread::get_id() == std::thread::id(2))
-            thread1Output->setText(stream.str());
+            thread1Output.increase();
         else
-            thread2Output->setText(stream.str());
+            thread2Output.increase();
     }
 }
 
@@ -131,8 +116,8 @@ void my_window::save(const pixi::ui::KeyRecord ker)
 
 int main()
 {
-//    my_window mw;
-//    pixi::ui::windowEventProc(&mw, false);
+    my_window mw;
+    pixi::ui::windowEventProc(&mw, false);
 
     return 0;
 }
