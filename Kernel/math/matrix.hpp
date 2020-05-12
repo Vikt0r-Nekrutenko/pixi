@@ -2,6 +2,7 @@
 #define MATRIX_HPP
 
 #include "vector.hpp"
+#include <tuple>
 
 namespace pixi { namespace math {
 
@@ -29,7 +30,7 @@ public:
         return _h;
     }
     void print() const;
-    vector<> dot(const vector<> &vec) const;
+    math::dword weighted_sum(const vector<> &vec) const;
     matrix &operator =(const matrix &mtrx);
     matrix random(const float &min, const float &max);
 private:

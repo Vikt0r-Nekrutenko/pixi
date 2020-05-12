@@ -24,10 +24,11 @@ public:
     void learn_step(const vector<> &input, const vector<> &output);
     vector<> result(const vector<> &input);
     dword statistic(const files::file &swds_file, const files::file &mwds_file, const dword &files_num, const bool output_is_enabled = false);
-    dword winner(const vector<> &input) const;
 private:
     matrix _kohonen_layer;
     matrix _grossberg_layer;
+
+    dword _koh_half = 0u;
 
     float _alpha      = 0.7f, _beta      = 0.1f;
     float _alpha_step = 0.0f, _beta_step = 0.0f;

@@ -7,6 +7,7 @@ pixi::math::detector::detector(const pixi::math::dword &kw, const pixi::math::dw
 {
     _alpha_step = _alpha / (iters + 1);
     _beta_step  = _beta  / (iters + 1);
+    _koh_half = _kohonen_layer.h() >> 1;
 }
 
 void pixi::math::detector::save(const char *file_name) const
@@ -72,23 +73,23 @@ void pixi::math::detector::learn(const pixi::files::file &swds, const pixi::file
 
         learn_step(swds.signature(i), swo);
         learn_step(mwds.signature(i), mwo);
-
     }
-    printf("Elapsed: %f\tAlpha: %f\tBeta: %f\n", (clock() - t1) / 1000.f, _alpha, _beta);
+//    printf("Elapsed: %f\tAlpha: %f\tBeta: %f\n", (clock() - t1) / 1000.f, _alpha, _beta);
 }
 
 void pixi::math::detector::learn_step(const vector<> &input, const vector<> &output)
 {
-    dword winner_indx = winner(input);
+    dword winner_indx = _kohonen_layer.weighted_sum(input);
     vector<> &winner_neuron = _kohonen_layer[winner_indx];
 
-    if ((int(output[0]) == -1 && winner_indx > _kohonen_layer.h() >> 1) || (int(output[0]) == +1 && winner_indx < _kohonen_layer.h() >> 1)) {
+    if ((int(output[0]) == -1 && winner_indx > _koh_half) ||
+        (int(output[0]) == +1 && winner_indx < _koh_half)) {
         winner_neuron = winner_neuron - (input - winner_neuron) * _alpha;
     } else {
         winner_neuron = winner_neuron + (input - winner_neuron) * _alpha;
     }
 
-    for (dword i = 0; i < _grossberg_layer.h(); ++i) {
+    for (int i = _grossberg_layer.h() - 1; i >= 0; --i) {
         float &vs = _grossberg_layer[i][winner_indx];
         vs = vs + (output[i] - vs) * _beta;
     }
@@ -99,7 +100,7 @@ void pixi::math::detector::learn_step(const vector<> &input, const vector<> &out
 
 pixi::math::vector<> pixi::math::detector::result(const vector<> &input)
 {
-    dword winner_indx = winner(input);
+    dword winner_indx = _kohonen_layer.weighted_sum(input);
     vector<> result(_grossberg_layer.h());
 
     for (dword i = 0; i < _grossberg_layer.h(); i++) {
@@ -132,10 +133,4 @@ pixi::math::dword pixi::math::detector::statistic(const pixi::files::file &swds_
     if (output_is_enabled) printf("Malware errors:  %d\n", mw_errs);
 
     return sw_errs + mw_errs;
-}
-
-pixi::math::dword pixi::math::detector::winner(const vector<> &input) const
-{
-    vector<> weighted_sum = _kohonen_layer.dot(input);
-    return weighted_sum.max();
 }

@@ -39,14 +39,19 @@ void pixi::math::matrix::print() const
     }
 }
 
-pixi::math::vector<> pixi::math::matrix::dot(const vector<> &vec) const
+pixi::math::dword pixi::math::matrix::weighted_sum(const vector<> &vec) const
 {
     assert(_w == vec.size());
-    vector<> tmp(_h);
+    float max = 0.f;
+    dword indx = 0u;
     for (dword i = 0; i < _h; ++i) {
-        tmp[i] = _array[i].dot(vec);
+        float d = _array[i].dot(vec);
+        if (d > max) {
+            max = d;
+            indx = i;
+        }
     }
-    return tmp;
+    return indx;
 }
 
 pixi::math::matrix pixi::math::matrix::random(const float &min, const float &max)

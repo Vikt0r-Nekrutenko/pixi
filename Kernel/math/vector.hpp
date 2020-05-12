@@ -62,7 +62,7 @@ public:
     float dot(const vector &vec) const
     {
         assert(_size == vec._size);
-        register float result = 0.f;
+        float result = 0.f;
         for (dword i = 0; i < _size; ++i) {
             result += _array[i] * vec._array[i];
         }
@@ -87,7 +87,7 @@ public:
             sqr_sum += powf(_array[i], 2.f);
         }
 
-        register float sqrt_sum = sqrtf(sqr_sum);
+        float sqrt_sum = sqrtf(sqr_sum);
         for (dword i = 0; i < _size; ++i) {
             _array[i] /= sqrt_sum;
         }

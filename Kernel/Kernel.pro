@@ -17,16 +17,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    detector.cpp \
+    math/detector.cpp \
+    math/matrix.cpp
     file.cpp \
-    matrix.cpp
 
 HEADERS += \
-    detector.hpp \
-    file.hpp \
+    math/detector.hpp \
+    math/matrix.hpp \
+    math/vector.hpp \
     kernel_global.hpp \
-    matrix.hpp \
-    vector.hpp
+    file.hpp
 
 # Default rules for deployment.
 unix {
