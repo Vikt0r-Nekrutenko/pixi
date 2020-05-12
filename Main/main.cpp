@@ -10,6 +10,19 @@
 #include "ui/Window.hpp"
 #include "ui/OutputBox.hpp"
 
+namespace pixi { namespace ui {
+
+class ProgressBox : public Box
+{
+    ProgressBox(const Window *parent, const short x, const short y, const short width, const short height, const std::string title = "Progress")
+        : Box(parent, x, y, width, height, title)
+    {
+
+    }
+};
+
+}}
+
 using namespace pixi::math;
 
 dword random(dword min, dword max) {
@@ -118,8 +131,8 @@ void my_window::save(const pixi::ui::KeyRecord ker)
 
 int main()
 {
-    my_window mw;
-    pixi::ui::windowEventProc(&mw, false);
+//    my_window mw;
+//    pixi::ui::windowEventProc(&mw, false);
 
     return 0;
 }
