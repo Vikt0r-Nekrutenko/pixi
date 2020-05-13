@@ -27,6 +27,7 @@ void pixi::vp::Renderer::fill(const pixi::ui::Color color, const char symbol)
 
 void pixi::vp::Renderer::update(const float deltaTile)
 {
+    m_model->update(deltaTile);
     for (int i = m_size.Y - 3; i >= 0; --i) {
         for (int j = m_size.X - 3; j >= 0; --j) {
             if (m_model->get(j, i) != nullptr) {

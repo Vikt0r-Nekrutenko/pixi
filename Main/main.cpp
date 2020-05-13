@@ -30,18 +30,21 @@ public:
     }
     void secondElased(const float fps) override
     {
-
+        model.spawnEntities(&swdf, &mwdf);
     }
     void onRendererClicked(const MouseRecord mer) {
         if (mer.isPressed && mer.button == MouseButton::LEFT) {
             std::cout << "\rEntity: ";
-            if (renderer.get(mer.position.X, mer.position.Y) != nullptr)
-                std::cout << renderer.get(mer.position.X, mer.position.Y)->name() << "\r";
+            pixi::vp::Entity *ent = renderer.get(mer.position.X, mer.position.Y);
+            if (ent != nullptr && ent->type() != pixi::vp::EntityType::Agent)
+                std::cout << ((pixi::vp::Ware*)ent)->name() << "\r";
+            else if (ent->type() == pixi::vp::EntityType::Agent)
+                std::cout << ((pixi::vp::Agent*)ent)->px() << " " << ((pixi::vp::Agent*)ent)->py() << std::endl;
         }
     }
 
-    pixi::files::file swdf;
-    pixi::files::file mwdf;
+    const pixi::files::file swdf;
+    const pixi::files::file mwdf;
     pixi::vp::Renderer renderer;
     pixi::vp::Model model;
 };
