@@ -26,9 +26,11 @@ SOURCES += \
     ui/NumericBox.cpp \
     ui/OutputBox.cpp \
     ui/ProgressBox.cpp \
-    ui/Renderer.cpp \
     ui/Window.cpp \
     file.cpp \
+    vp/Entity.cpp \
+    vp/Model.cpp \
+    vp/Renderer.cpp
 
 HEADERS += \
     math/detector.hpp \
@@ -36,6 +38,7 @@ HEADERS += \
     math/vector.hpp \
     kernel_global.hpp \
     file.hpp \
+    my_window.hpp \
     ui/BasicTemplate.hpp \
     ui/Box.hpp \
     ui/Event.hpp \
@@ -43,8 +46,10 @@ HEADERS += \
     ui/NumericBox.hpp \
     ui/OutputBox.hpp \
     ui/ProgressBox.hpp \
-    ui/Renderer.hpp \
-    ui/Window.hpp
+    ui/Window.hpp \
+    vp/Entity.hpp \
+    vp/Model.hpp \
+    vp/Renderer.hpp
 
 # Default rules for deployment.
 unix {

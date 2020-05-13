@@ -27,8 +27,8 @@ public:
     void setCursorParams(const bool isVisible = false, const short size = 1) const;
     void addNewControl(const std::initializer_list<Box *> controls);
 
-    virtual void secondElased(const float fps) {};
-    virtual void update(const float deltaTime) {};
+    virtual void secondElased(const float fps) = 0;
+    virtual void update(const float deltaTime) = 0;
 
     const HANDLE &out() const;
     COORD windowSize() const;
