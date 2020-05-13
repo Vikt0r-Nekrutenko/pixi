@@ -26,10 +26,19 @@ public:
     {
         return m_color;
     }
+    inline void mark()
+    {
+        m_isMarked = true;
+    }
+    inline bool isMarked() const
+    {
+        return m_isMarked;
+    }
 protected:
     EntityType m_type;
     char      m_symbol;
     ui::Color m_color;
+    bool      m_isMarked = false;
 };
 
 class KERNEL_EXPORT Ware : public Entity
@@ -63,7 +72,7 @@ class Model;
 class KERNEL_EXPORT Agent : public Entity
 {
 public:
-    Agent(const Model *model, const short x, const short y);
+    Agent(const Model *model, const short x, const short y, const float vx = 1.f, const float vy = 1.f);
     inline int px() const
     {
         return m_px;
@@ -73,9 +82,12 @@ public:
         return m_py;
     }
     void update(const float deltaTime);
-private:
+    std::pair<int, int> findNearestTarget();
+//private:
     Model *m_model = nullptr;
-    float m_px, m_py, m_vx = 10.f, m_vy = 10.f;
+    float m_px, m_py, m_vx = 0.f, m_vy = 0.f;
+    std::pair<int, int> m_targetPos;
+    bool m_targetFound = false;
 };
 
 }}

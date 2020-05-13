@@ -32,9 +32,9 @@ public:
 
 private:
     std::vector<Entity *> m_entities;
+    std::vector<Agent *> m_agents;
     Renderer *m_renderer = nullptr;
     COORD m_size { 0, 0 };
-    Agent *m_agent = nullptr;
 };
 
 }}

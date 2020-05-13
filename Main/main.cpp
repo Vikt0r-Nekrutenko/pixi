@@ -14,7 +14,7 @@ public:
     window() : Window(),
         swdf("../Kernel/data/SoftwareDataSetRaw.data"),
         mwdf("../Kernel/data/MalwareDataSet.data"),
-        renderer(this, 10, 5, 70, 20),
+        renderer(this, 0, 0, 90, 25),
         model(&renderer, &swdf, &mwdf)
     {
         addNewControl({ &renderer });
@@ -30,7 +30,7 @@ public:
     }
     void secondElased(const float fps) override
     {
-        model.spawnEntities(&swdf, &mwdf);
+//        model.spawnEntities(&swdf, &mwdf);
     }
     void onRendererClicked(const MouseRecord mer) {
         if (mer.isPressed && mer.button == MouseButton::LEFT) {
