@@ -28,10 +28,12 @@ SOURCES += \
     ui/ProgressBox.cpp \
     ui/Window.cpp \
     file.cpp \
+    vp/Agent.cpp \
     vp/Entity.cpp \
     vp/Renderer.cpp
 
 HEADERS += \
+    kernel.hpp \
     math/detector.hpp \
     math/matrix.hpp \
     math/vector.hpp \
@@ -46,6 +48,7 @@ HEADERS += \
     ui/OutputBox.hpp \
     ui/ProgressBox.hpp \
     ui/Window.hpp \
+    vp/Agent.hpp \
     vp/Entity.hpp \
     vp/Renderer.hpp
 

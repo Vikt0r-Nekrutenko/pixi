@@ -4,18 +4,26 @@
 #include <cassert>
 #include <vector>
 #include "ui/Box.hpp"
-#include "Entity.hpp"
+#include "file.hpp"
 
 namespace pixi { namespace vp {
 
+class Agent;
+class Entity;
+class Ware;
+
 class KERNEL_EXPORT Renderer : public pixi::ui::Box
 {
-    friend KERNEL_EXPORT class Agent;
+    friend class Agent;
 public:
     Renderer(const pixi::ui::Window *parent, const short x, const short y, const short width, const short height);
     ~Renderer() override;
     Entity *at(const short x, const short y);
     Entity *get(const short x, const short y);
+    inline Agent *agent(const size_t indx)
+    {
+        return m_agents.at(indx);
+    }
     inline bool isEnable() const
     {
         return m_isEnable;
@@ -36,6 +44,7 @@ public:
     {
         return m_size.Y - 2;
     }
+
     void fill(const pixi::ui::Color color = pixi::ui::Color::FG_BLACK, const char symbol = ui::UNDEF_SYMBOL) final;
     void update(const float deltaTile);
     void changeAgentSpeed(const float speed);

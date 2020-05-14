@@ -21,7 +21,7 @@ pixi::ui::Window::Window(const bool fullscreenIsEnabled)
     }
 }
 
-pixi::ui::Window::Window(const short x, const short y, const short width, const short height)
+pixi::ui::Window::Window(const short x, const short y, const short width, const short height, const char *title)
     : BasicTemplate(),
       m_out(GetStdHandle(STD_OUTPUT_HANDLE)),
       m_in(GetStdHandle(STD_INPUT_HANDLE)),
@@ -30,6 +30,7 @@ pixi::ui::Window::Window(const short x, const short y, const short width, const 
     resize(width, height);
     move(x == CENTER ? GetSystemMetrics(SM_CXSCREEN) / 2 - windowSize().X / 2 : x,
          y == CENTER ? GetSystemMetrics(SM_CYSCREEN) / 2 - windowSize().Y / 2 : y);
+    SetConsoleTitleA(title);
 }
 
 void pixi::ui::Window::setFontParams(const short width, const short height, const bool isBold, const wchar_t *fontFaceName)

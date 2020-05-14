@@ -13,7 +13,7 @@ void pixi::ui::ProgressBox::increase() {
     float realLen = m_size.X - 2;
     m_progress += realLen / m_value;
 
-    for (int i = 0; i < m_progress && m_progress < realLen; i++) {
+    for (int i = 0; i < m_progress && m_progress <= realLen; i++) {
         m_rect[i + m_size.X + 1].Char.AsciiChar = -37;
         m_rect[i + m_size.X + 1].Attributes = unsigned(m_barColor) + ((unsigned(m_barColor) * unsigned(Color::BG_BLUE)));
     }

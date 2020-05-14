@@ -21,7 +21,7 @@ class KERNEL_EXPORT Window : public BasicTemplate
     friend void KERNEL_EXPORT windowEventProc(Window *window, const bool updateIsEnabled);
 public:
     Window(const bool fullscreenIsEnabled);
-    Window(const short x = CENTER, const short y = CENTER, const short width = DEF_WND_WIDTH, const short height = DEF_WND_HEIGHT);
+    Window(const short x = CENTER, const short y = CENTER, const short width = DEF_WND_WIDTH, const short height = DEF_WND_HEIGHT, const char *title = "New window");
     void setFontParams(const short width = 8, const short height = 12, const bool isBold = false, const wchar_t *fontFaceName = L"Terminal");
     void setCursorPosition(const short x, const short y) const;
     void setCursorParams(const bool isVisible = false, const short size = 1) const;
@@ -35,14 +35,13 @@ public:
     COORD placeSize() const;
 
 protected:
+    void move(const short x, const short y) final;
+    void resize(const short width, const short height) final;
+
     std::vector <Box *> m_controls;
     COORD  m_size;
     HANDLE m_out, m_in;
     HWND m_wnd;
-
-private:
-    void move(const short x, const short y) final;
-    void resize(const short width, const short height) final;
 };
 
 void KERNEL_EXPORT windowEventProc(Window *window, const bool updateIsEnabled);

@@ -1,5 +1,6 @@
 #include "Renderer.hpp"
 #include "Entity.hpp"
+#include "Agent.hpp"
 #include "math/vector.hpp"
 
 pixi::vp::Renderer::Renderer(const pixi::ui::Window *parent, const short x, const short y, const short width, const short height)
@@ -69,19 +70,21 @@ void pixi::vp::Renderer::update(const float deltaTime)
         }
     }
     for (Agent *a : m_agents) {
-        for (Agent *t : m_agents) {
-            if (a != t) {
-                float distance = sqrtf(powf(a->px() - t->px(), 2.f) + powf(a->py() - t->py(), 2.f));
-                while (distance <= 1.f) {
-                    a->collision(t, deltaTime);
-                    distance = sqrtf(powf(a->px() - t->px(), 2.f) + powf(a->py() - t->py(), 2.f));
+        if (!a->isDestroyed()) {
+            for (Agent *t : m_agents) {
+                if (a != t && !t->isDestroyed()) {
+                    float distance = sqrtf(powf(a->px() - t->px(), 2.f) + powf(a->py() - t->py(), 2.f));
+                    while (distance <= 1.f) {
+                        a->collision(t, deltaTime);
+                        distance = sqrtf(powf(a->px() - t->px(), 2.f) + powf(a->py() - t->py(), 2.f));
+                    }
                 }
             }
-        }
-        a->update(this, deltaTime);
+            a->update(this, deltaTime);
 
-        Box::get(a->px() + 1, a->py() + 1).Char.AsciiChar = a->symbol();
-        Box::get(a->px() + 1, a->py() + 1).Attributes = Entity::dword(a->color());
+            Box::get(a->px() + 1, a->py() + 1).Char.AsciiChar = a->symbol();
+            Box::get(a->px() + 1, a->py() + 1).Attributes = Entity::dword(a->color());
+        }
     }
 }
 
@@ -105,7 +108,7 @@ void pixi::vp::Renderer::init(const pixi::files::file *software, const pixi::fil
         short x = 2 + rand() % (w() - 2);
         short y = 2 + rand() % (h() - 2);
         if (at(x, y) != nullptr) i--;
-        else m_agents.push_back(new Agent(x, y, 1.f));
+        else m_agents.push_back(new Agent(x, y, 1.f, 100));
     }
 }
 
