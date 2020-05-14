@@ -13,9 +13,9 @@
 #include "ui/OutputBox.hpp"
 #include "ui/ProgressBox.hpp"
 #include "ui/Window.hpp"
+#include "ui/Renderer.hpp"
 
 #include "vp/Entity.hpp"
-#include "vp/Renderer.hpp"
 #include "vp/Agent.hpp"
 
 #include "file.hpp"

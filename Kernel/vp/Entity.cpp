@@ -1,5 +1,4 @@
 #include "Entity.hpp"
-#include "Renderer.hpp"
 
 pixi::vp::Ware::Ware(const pixi::files::file *dataFile, const dword indx, const EntityType type)
     : m_dataFile(const_cast<files::file *>(dataFile)),

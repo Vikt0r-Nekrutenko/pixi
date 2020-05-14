@@ -27,10 +27,10 @@ SOURCES += \
     ui/OutputBox.cpp \
     ui/ProgressBox.cpp \
     ui/Window.cpp \
+    ui/Renderer.cpp \
     file.cpp \
     vp/Agent.cpp \
     vp/Entity.cpp \
-    vp/Renderer.cpp
 
 HEADERS += \
     kernel.hpp \
@@ -48,9 +48,9 @@ HEADERS += \
     ui/OutputBox.hpp \
     ui/ProgressBox.hpp \
     ui/Window.hpp \
+    ui/Renderer.hpp \
     vp/Agent.hpp \
     vp/Entity.hpp \
-    vp/Renderer.hpp
 
 # Default rules for deployment.
 unix {

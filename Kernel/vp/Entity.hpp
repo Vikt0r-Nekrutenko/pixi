@@ -43,11 +43,11 @@ public:
         m_isDestroyed = true;
     }
 protected:
-    EntityType m_type;
-    char      m_symbol;
-    ui::Color m_color;
-    float m_px = 0.f, m_py = 0.f;
-    bool m_isDestroyed = false;
+    EntityType  m_type;
+    ui::Color   m_color;
+    float       m_px = 0.f, m_py = 0.f;
+    bool        m_isDestroyed = false;
+    char        m_symbol;
 };
 
 class KERNEL_EXPORT Ware : public Entity

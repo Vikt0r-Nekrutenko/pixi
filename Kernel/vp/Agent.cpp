@@ -1,5 +1,4 @@
 #include "Agent.hpp"
-#include "Renderer.hpp"
 
 pixi::vp::Agent::Agent(const short x, const short y, const float speed, const int lifeCicles)
     : Entity(),
@@ -12,9 +11,9 @@ pixi::vp::Agent::Agent(const short x, const short y, const float speed, const in
     m_py = y;
 }
 
-void pixi::vp::Agent::update(Renderer *renderer, const float deltaTime)
+void pixi::vp::Agent::update(std::vector<Ware *> &wares, const short rightBorder, const short bottomBorder, const float deltaTime)
 {
-    float targetAngle = findNearestTarget(renderer);
+    float targetAngle = findNearestTarget(wares);
 
     if (m_targetIsFound) {
         m_vx = m_speed * sinf(targetAngle);
@@ -33,10 +32,10 @@ void pixi::vp::Agent::update(Renderer *renderer, const float deltaTime)
     m_py += m_vy * deltaTime;
 
 
-    if (m_px <= 0.f) { m_px = 1.f; m_vx = -m_vx; }
-    if (m_px > renderer->w() - 2) { m_px = renderer->w() - 2; m_vx = -m_vx; }
-    if (m_py <= 0.f) { m_py = 1.f; m_vy = -m_vy; }
-    if (m_py > renderer->h() - 2) { m_py = renderer->h() - 2; m_vy = -m_vy; }
+    if (m_px <= 0.f)            { m_px = 1.f; m_vx = -m_vx; }
+    if (m_py <= 0.f)            { m_py = 1.f; m_vy = -m_vy; }
+    if (m_px > rightBorder - 2) { m_px = rightBorder - 2; m_vx = -m_vx; }
+    if (m_py > bottomBorder - 2) { m_py = bottomBorder - 2; m_vy = -m_vy; }
 }
 
 void pixi::vp::Agent::collision(pixi::vp::Agent *target, const float deltaTime)
@@ -44,17 +43,21 @@ void pixi::vp::Agent::collision(pixi::vp::Agent *target, const float deltaTime)
     std::swap(m_vx, target->m_vx);
     std::swap(m_vy, target->m_vy);
 
-    m_px += m_vx * deltaTime;
-    m_py += m_vy * deltaTime;
+    float distance = distanceTo(target);
+    while (distance <= 2.f) {
+        m_px += m_vx * deltaTime;
+        m_py += m_vy * deltaTime;
+        distance = distanceTo(target);
+    }
 }
 
-float pixi::vp::Agent::findNearestTarget(pixi::vp::Renderer *renderer)
+float pixi::vp::Agent::findNearestTarget(std::vector<Ware *> wares)
 {
     float min = INFINITE;
     Ware *target = nullptr;
-    for (Ware *t : renderer->m_entities) {
+    for (Ware *t : wares) {
         if (!t->isDestroyed()) {
-            float distance = sqrtf(powf(m_px - t->px(), 2.f) + powf(m_py - t->py(), 2.f));
+            float distance = distanceTo(t);
             if (distance < min) {
                 min = distance;
                 target = t;
@@ -66,7 +69,6 @@ float pixi::vp::Agent::findNearestTarget(pixi::vp::Renderer *renderer)
                 if (--m_lifeCicle == 0) {
                     destroy();
                 }
-                m_progress->increase();
             }
         }
     }

@@ -2,7 +2,6 @@
 #define AGENT_HPP
 
 #include "Entity.hpp"
-#include "ui/ProgressBox.hpp"
 
 namespace pixi { namespace vp {
 
@@ -16,22 +15,21 @@ public:
     {
         m_speed = speed;
     }
-    inline void setProgressBox(const ui::ProgressBox &pb)
-    {
-        m_progress = const_cast<ui::ProgressBox *>(&pb);
-    }
     inline int lifeCicle() const
     {
         return m_lifeCicle;
     }
-    void update(Renderer *renderer, const float deltaTime);
+    inline float distanceTo(Entity *target)
+    {
+        return sqrtf(powf(m_px - target->px(), 2.f) + powf(m_py - target->py(), 2.f));
+    }
+    void update(std::vector<Ware *> &wares, const short rightBorder, const short bottomBorder, const float deltaTime);
     void collision(Agent *target, const float deltaTime);
-    float findNearestTarget(Renderer *renderer);
+    float findNearestTarget(std::vector<Ware *> wares);
 private:
-    ui::ProgressBox *m_progress;
-    float m_vx = -5.f, m_vy = 5.f, m_speed = 1.f;
-    bool m_targetIsFound = false;
-    int m_lifeCicle = 1;
+    float   m_vx = -5.f, m_vy = 5.f, m_speed = 1.f;
+    bool    m_targetIsFound = false;
+    int     m_lifeCicle;
 };
 
 }}
