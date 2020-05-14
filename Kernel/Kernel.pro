@@ -29,7 +29,6 @@ SOURCES += \
     ui/Window.cpp \
     file.cpp \
     vp/Entity.cpp \
-    vp/Model.cpp \
     vp/Renderer.cpp
 
 HEADERS += \
@@ -48,7 +47,6 @@ HEADERS += \
     ui/ProgressBox.hpp \
     ui/Window.hpp \
     vp/Entity.hpp \
-    vp/Model.hpp \
     vp/Renderer.hpp
 
 # Default rules for deployment.

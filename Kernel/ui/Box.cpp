@@ -1,5 +1,6 @@
 #include "Box.hpp"
 #include "Window.hpp"
+#include <cassert>
 
 pixi::ui::Box::Box(const Window *parent, const short x, const short y, const short width, const short height, const std::string title)
     : m_title(title),
@@ -23,6 +24,7 @@ pixi::ui::Box::~Box()
 
 CHAR_INFO &pixi::ui::Box::get(const short x, const short y)
 {
+    assert(y < m_size.Y && x < m_size.X);
     return m_rect[m_size.X * y + x];
 }
 

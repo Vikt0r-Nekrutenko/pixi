@@ -26,23 +26,33 @@ public:
     {
         return m_color;
     }
-    inline void mark()
+    inline int px() const
     {
-        m_isMarked = true;
+        return m_px;
     }
-    inline bool isMarked() const
+    inline int py() const
     {
-        return m_isMarked;
+        return m_py;
+    }
+    inline bool isDestroyed() const
+    {
+        return m_isDestroyed;
+    }
+    inline void destroy()
+    {
+        m_isDestroyed = true;
     }
 protected:
     EntityType m_type;
     char      m_symbol;
     ui::Color m_color;
-    bool      m_isMarked = false;
+    float m_px = 0.f, m_py = 0.f;
+    bool m_isDestroyed = false;
 };
 
 class KERNEL_EXPORT Ware : public Entity
 {
+    friend KERNEL_EXPORT class Renderer;
 public:
     Ware(const files::file *dataFile, const dword indx, const EntityType type);
     std::string name() const;
@@ -58,36 +68,31 @@ protected:
 class KERNEL_EXPORT Malware : public Ware
 {
 public:
-    Malware(const files::file *dataFile, const dword indx);
+    Malware(const files::file *dataFile, const dword indx, const short x, const short y);
 };
 
 class KERNEL_EXPORT Software : public Ware
 {
 public:
-    Software(const files::file *dataFile, const dword indx);
+    Software(const files::file *dataFile, const dword indx, const short x, const short y);
 };
 
-class Model;
+class KERNEL_EXPORT Renderer;
 
 class KERNEL_EXPORT Agent : public Entity
 {
 public:
-    Agent(const Model *model, const short x, const short y, const float vx = 1.f, const float vy = 1.f);
-    inline int px() const
+    Agent(const short x, const short y, const float speed);
+    inline void setSpeed(const float speed)
     {
-        return m_px;
+        m_speed = speed;
     }
-    inline int py() const
-    {
-        return m_py;
-    }
-    void update(const float deltaTime);
-    std::pair<int, int> findNearestTarget();
-//private:
-    Model *m_model = nullptr;
-    float m_px, m_py, m_vx = 0.f, m_vy = 0.f;
-    std::pair<int, int> m_targetPos;
-    bool m_targetFound = false;
+    void update(Renderer *renderer, const float deltaTime);
+    void collision(Agent *target, const float deltaTime);
+    float findNearestTarget(Renderer *renderer);
+private:
+    float m_vx = -5.f, m_vy = 5.f, m_speed = 1.f;
+    bool m_targetIsFound = false;
 };
 
 }}
