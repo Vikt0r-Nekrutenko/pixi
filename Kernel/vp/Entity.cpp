@@ -32,6 +32,11 @@ std::string pixi::vp::Ware::version() const
     return m_dataFile->field(m_indx, 4);
 }
 
+pixi::math::vector<> pixi::vp::Ware::signature() const
+{
+    return m_dataFile->signature(m_indx);
+}
+
 pixi::vp::Malware::Malware(const pixi::files::file *dataFile, const pixi::vp::Entity::dword indx, const short x, const short y)
     : Ware(dataFile, indx, EntityType::Malware)
 {

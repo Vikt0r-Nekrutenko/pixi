@@ -17,7 +17,7 @@ void pixi::ui::ProgressBox::increase() {
         m_rect[i + m_size.X + 1].Char.AsciiChar = -37;
         m_rect[i + m_size.X + 1].Attributes = unsigned(m_barColor) + ((unsigned(m_barColor) * unsigned(Color::BG_BLUE)));
     }
-    std::string valueStr = std::to_string(int(m_real++));
+    std::string valueStr = std::to_string(int(++m_real));
     for (int i = realLen / 2 + m_size.X - valueStr.length() / 2, j = 0; j < valueStr.length() && i < realLen + m_size.X; ++j, ++i) {
         m_rect[i].Char.AsciiChar = valueStr[j];
         m_rect[i].Attributes |= unsigned(m_color);

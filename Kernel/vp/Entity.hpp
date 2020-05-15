@@ -2,6 +2,7 @@
 #define ENTITY_HPP
 
 #include "ui/Box.hpp"
+#include "math/vector.hpp"
 #include "file.hpp"
 
 namespace pixi { namespace vp {
@@ -42,6 +43,14 @@ public:
     {
         m_isDestroyed = true;
     }
+    inline void setPosition(const short x, const short y)
+    {
+        m_px = x; m_py = y;
+    }
+    inline void respawn()
+    {
+        m_isDestroyed = false;
+    }
 protected:
     EntityType  m_type;
     ui::Color   m_color;
@@ -60,6 +69,7 @@ public:
     std::string size() const;
     std::string company() const;
     std::string version() const;
+    math::vector<> signature() const;
 protected:
     files::file *m_dataFile = nullptr;
     dword     m_indx = 0u;

@@ -1,12 +1,16 @@
 #include "Agent.hpp"
 
-pixi::vp::Agent::Agent(const short x, const short y, const float speed, const int lifeCicles)
+pixi::vp::Agent::Agent(const short x, const short y, const float speed, ui::ProgressBox *view, const int lifeCicles)
     : Entity(),
-      m_speed(speed),
-      m_lifeCicle(lifeCicles)
+      m_lifeCicle(lifeCicles),
+      m_layers(2 + rand() % 254),
+      m_detector(16, m_layers, m_layers, 2, m_lifeCicle),
+      m_view(view),
+      m_speed(speed)
 {
     m_symbol = 2;
     m_color = ui::Color::FG_MAGENTA;
+    m_type = EntityType::Agent;
     m_px = x;
     m_py = y;
 }
@@ -40,14 +44,29 @@ void pixi::vp::Agent::update(std::vector<Ware *> &wares, const short rightBorder
 
 void pixi::vp::Agent::collision(pixi::vp::Agent *target, const float deltaTime)
 {
+    float distance = distanceTo(target);
+    int i = 100;
     std::swap(m_vx, target->m_vx);
     std::swap(m_vy, target->m_vy);
 
-    float distance = distanceTo(target);
-    while (distance <= 2.f) {
+    while (distance <= 2.f || --i) {
         m_px += m_vx * deltaTime;
         m_py += m_vy * deltaTime;
         distance = distanceTo(target);
+    }
+}
+
+void pixi::vp::Agent::operation(pixi::vp::Ware *ware)
+{
+    if (m_mode == AgentMode::LEARNIGN) {
+        if (ware->type() == EntityType::Software) m_detector.learn_step(ware->signature(), math::vector<>(16.f, -1.f));
+        if (ware->type() == EntityType::Malware)  m_detector.learn_step(ware->signature(), math::vector<>(16.f, +1.f));
+    } else {
+        math::vector<> res = m_detector.result(ware->signature());
+        if (res[0] > 0.f) {
+            ware->destroy();
+            m_view->increase();
+        }
     }
 }
 
@@ -59,16 +78,30 @@ float pixi::vp::Agent::findNearestTarget(std::vector<Ware *> wares)
         if (!t->isDestroyed()) {
             float distance = distanceTo(t);
             if (distance < min) {
-                min = distance;
-                target = t;
+                if (m_mode == AgentMode::LEARNIGN) {
+                    min = distance;
+                    target = t;
+                } else if (m_mode == AgentMode::NORMAL && t->type() == EntityType::Malware) {
+                    min = distance;
+                    target = t;
+                }
             }
             if (distance < 1.2f) {
-                t->destroy();
-                target = nullptr;
-                min = INFINITE;
-                if (--m_lifeCicle == 0) {
-                    destroy();
+                if (m_mode == AgentMode::LEARNIGN || (m_mode == AgentMode::NORMAL && t->type() == EntityType::Malware)) {
+                    t->destroy();
+                    target = nullptr;
+                    min = INFINITE;
+                    if (--m_lifeCicle == 0) {
+//                        destroy();
+
+                        m_color = ui::Color::FG_YELLOW;
+                        m_lifeCicle = 100;
+                        m_layers = 2 + rand() % 254;
+                        m_detector = math::detector(16, m_layers, m_layers, 2, m_lifeCicle);
+                    }
+                    m_view->increase();
                 }
+                operation(t);
             }
         }
     }
