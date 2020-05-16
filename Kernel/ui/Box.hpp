@@ -61,6 +61,10 @@ public:
     void move(const short x, const short y) override;
     void setTitle(const std::string title);
     const SMALL_RECT &getFrame() const;
+    const inline Color &color() const
+    {
+        return m_color;
+    }
 
     using BasicTemplate::keyEvent;
     using BasicTemplate::mouseEvent;

@@ -49,7 +49,7 @@ pixi::vp::Malware::Malware(const pixi::files::file *dataFile, const pixi::vp::En
 pixi::vp::Software::Software(const pixi::files::file *dataFile, const pixi::vp::Entity::dword indx, const short x, const short y)
     : Ware(dataFile, indx, EntityType::Software)
 {
-    m_symbol = 7;
+    m_symbol = '@';
     m_color = ui::Color::FG_GREEN;
     m_px = x;
     m_py = y;
