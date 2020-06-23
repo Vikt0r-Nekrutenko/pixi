@@ -17,12 +17,40 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    file.cpp
+    math/detector.cpp \
+    math/matrix.cpp \
+    ui/BasicTemplate.cpp \
+    ui/Box.cpp \
+    ui/Event.cpp \
+    ui/InputBox.cpp \
+    ui/NumericBox.cpp \
+    ui/OutputBox.cpp \
+    ui/ProgressBox.cpp \
+    ui/Window.cpp \
+    ui/Renderer.cpp \
+    file.cpp \
+    vp/Agent.cpp \
+    vp/Entity.cpp \
 
 HEADERS += \
+    kernel.hpp \
+    math/detector.hpp \
+    math/matrix.hpp \
+    math/vector.hpp \
+    kernel_global.hpp \
     file.hpp \
-    kernel_global.hpp
-
+    my_window.hpp \
+    ui/BasicTemplate.hpp \
+    ui/Box.hpp \
+    ui/Event.hpp \
+    ui/InputBox.hpp \
+    ui/NumericBox.hpp \
+    ui/OutputBox.hpp \
+    ui/ProgressBox.hpp \
+    ui/Window.hpp \
+    ui/Renderer.hpp \
+    vp/Agent.hpp \
+    vp/Entity.hpp \
 
 # Default rules for deployment.
 unix {

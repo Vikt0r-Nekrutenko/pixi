@@ -12,7 +12,7 @@ pixi::files::file::~file()
     fclose(m_dataFile);
 }
 
-std::string pixi::files::file::field(const size_t &indx, const size_t &fieldNumber)
+std::string pixi::files::file::field(const size_t &indx, const size_t &fieldNumber) const
 {
     assert(m_dataFile != nullptr);
     fseek(m_dataFile, FIELD_SIZE * 6 * indx + FIELD_SIZE * fieldNumber, SEEK_SET);
@@ -21,15 +21,17 @@ std::string pixi::files::file::field(const size_t &indx, const size_t &fieldNumb
     return field;
 }
 
-std::vector<pixi::files::byte> pixi::files::file::signature(const size_t &indx)
+pixi::math::vector<> pixi::files::file::signature(const size_t &indx) const
 {
     assert(m_dataFile != nullptr);
     fseek(m_dataFile, FIELD_SIZE * 6 * indx + FIELD_SIZE * 5, SEEK_SET);
-    std::vector<byte> signature(SIGNATURE_SIZE);
-    for (word i = 0; i < SIGNATURE_SIZE; i++) {
-        fread(&signature[i], 1, 1, m_dataFile);
+    math::vector<> signature(SIGNATURE_SIZE);
+    for (math::dword i = 0; i < SIGNATURE_SIZE; i++) {
+        byte b = 0u;
+        fread(&b, 1, 1, m_dataFile);
+        signature[i] = b;
     }
-    return signature;
+    return signature.norm();
 }
 
 /*while(!softwareFile.eof())

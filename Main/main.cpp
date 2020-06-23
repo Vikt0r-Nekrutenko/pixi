@@ -1,11 +1,15 @@
-#include <iostream>
-#include "file.hpp"
+﻿#include <iostream>
+#include <cstdlib>
+#include <cassert>
+#include <cmath>
+#include "kernel.hpp"
+#include "MainWindow.hpp"
 
-using namespace std;
+using namespace pixi;
 
 int main()
 {
-    pixi::files::file sw("../Kernel/data/SoftwareDataSet.data");
-    cout << sw.field(0, 0) << endl;
+    MainWindow wnd;
+    windowEventProc(&wnd, true);
     return 0;
 }
